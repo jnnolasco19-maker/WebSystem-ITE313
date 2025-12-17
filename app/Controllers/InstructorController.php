@@ -44,6 +44,11 @@ class InstructorController extends BaseController
             $totalStudents += $this->enrollmentModel->where('course_id', $course['id'])->countAllResults();
         }
         
+        // Add student count to each course
+        foreach ($myCourses as &$course) {
+            $course['student_count'] = $this->enrollmentModel->where('course_id', $course['id'])->countAllResults();
+        }
+        
         return [
             'user' => $user,
             'myCourses' => $myCourses,

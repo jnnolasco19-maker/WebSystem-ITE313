@@ -12,6 +12,22 @@ class auth extends Controller
 {
     helper(['form']);
     $session = session();
+    
+    // Check if user is already logged in
+    if($session->get('logged_in')) {
+        // Redirect to appropriate dashboard based on user role
+        $userRole = $session->get('user_role');
+        switch($userRole) {
+            case 'admin':
+                return redirect()->to('/admin/dashboard');
+            case 'instructor':
+                return redirect()->to('/instructor/dashboard');
+            case 'student':
+                return redirect()->to('/student/dashboard');
+            default:
+                return redirect()->to('/dashboard');
+        }
+    }
 
     if($this->request->is('post')) {
         $rules = [
@@ -161,6 +177,20 @@ class auth extends Controller
         if($session->get('user_status') === 'restricted') {
             session()->setFlashdata('error_log', 'Your account is restricted. Please contact the administrator.');
             return redirect()->to('/restricted');
+        }
+
+        // Redirect to appropriate dashboard based on user role
+        $userRole = $session->get('user_role');
+        switch($userRole) {
+            case 'admin':
+                return redirect()->to('/admin/dashboard');
+            case 'instructor':
+                return redirect()->to('/instructor/dashboard');
+            case 'student':
+                return redirect()->to('/student/dashboard');
+            default:
+                // For any other role, continue with the generic dashboard
+                break;
         }
 
         $data = [];

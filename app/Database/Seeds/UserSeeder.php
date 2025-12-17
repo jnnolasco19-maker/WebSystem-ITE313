@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'name'     => 'Jane Instructor',
+                'name'     => 'Marc Instructor',
                 'email'    => 'instructor@example.com',
                 'password' => password_hash('instructor123', PASSWORD_DEFAULT),
                 'status'   => 'granted',

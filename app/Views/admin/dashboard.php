@@ -1,139 +1,268 @@
 <?= $this->include('template/header') ?>
 
+<style>
+/* Modern Dashboard Styles */
+.dashboard-header {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    color: white;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.bg-primary-light {
+    background: rgba(111, 66, 193, 0.15);
+}
+
+.bg-success-light {
+    background: rgba(25, 135, 84, 0.15);
+}
+
+.bg-info-light {
+    background: rgba(13, 202, 240, 0.15);
+}
+
+.bg-warning-light {
+    background: rgba(255, 193, 7, 0.15);
+}
+
+.bg-danger-light {
+    background: rgba(220, 53, 69, 0.15);
+}
+
+.modern-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.modern-table thead {
+    background: #f8f9fa;
+}
+
+.modern-table th {
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.modern-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modern-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.modern-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.badge-modern {
+    padding: 0.5em 0.8em;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.section-title {
+    position: relative;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: #6f42c1;
+    border-radius: 3px;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    height: 300px;
+}
+</style>
+
 <div class="content-area">
     <div class="container-fluid py-4">
         
-        <!-- Page Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h3 class="fw-bold mb-1">Admin Dashboard</h3>
-                <p class="text-muted mb-0">Welcome back, <?= esc(session()->get('user_email')) ?></p>
-            </div>
-            <div>
-                <span class="badge fs-6" style="background-color: #6f42c1;"><?= date('F d, Y') ?></span>
+        <!-- Modern Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div>
+                    <h2 class="fw-bold mb-2">Admin Dashboard</h2>
+                    <p class="mb-0 opacity-75">Welcome back, <?= esc(session()->get('user_email')) ?></p>
+                </div>
+                <div class="text-end">
+                    <div class="fs-5 fw-semibold"><?= date('F d, Y') ?></div>
+                    <div class="small opacity-75"><?= date('l') ?></div>
+                </div>
             </div>
         </div>
 
-        <!-- Statistics Cards -->
+        <!-- Enhanced Statistics Cards -->
         <div class="row g-4 mb-4">
+            <!-- Total Students -->
             <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
+                <div class="stat-card card h-100">
                     <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0" style="background: rgba(111, 66, 193, 0.1);" class="rounded-3 p-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" style="color: #6f42c1;" viewBox="0 0 16 16">
-                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                        <div class="stat-icon-container bg-primary-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#6f42c1" viewBox="0 0 16 16">
+                                <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                            </svg>
+                        </div>
+                        <h3 class="fw-bold mb-1"><?= esc($totalStudents) ?></h3>
+                        <p class="text-muted mb-0">Total Students</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Courses -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card h-100">
+                    <div class="card-body">
+                        <div class="stat-icon-container bg-success-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#198754" viewBox="0 0 16 16">
+                                <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
+                                <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="fw-bold mb-1"><?= esc($totalCourses) ?></h3>
+                        <p class="text-muted mb-0">Total Courses</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Instructors -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card h-100">
+                    <div class="card-body">
+                        <div class="stat-icon-container bg-info-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#0dcaf0" viewBox="0 0 16 16">
+                                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+                                <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                            </svg>
+                        </div>
+                        <h3 class="fw-bold mb-1"><?= esc($totalInstructors) ?></h3>
+                        <p class="text-muted mb-0">Total Instructors</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Enrollments -->
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card h-100">
+                    <div class="card-body">
+                        <div class="stat-icon-container bg-warning-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#ffc107" viewBox="0 0 16 16">
+                                <path d="M8 3a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm.5 11.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5v-1H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5v-1H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5v-1H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5V3H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5V3h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5v1h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5v1h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5v1h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6.5zm.5-11H3v1h.5V3zm0 2H3v1h.5V5zm0 2H3v1h.5V7zm0 2H3v1h.5V9zm0 2H3v1h.5v-1zm6.5 0h-.5v1H13v-1zm0-2h-.5v1H13V9zm0-2h-.5v1H13V7zm0-2h-.5v1H13V5zm0-2h-.5v1H13V3z"/>
+                            </svg>
+                        </div>
+                        <h3 class="fw-bold mb-1"><?= esc($totalEnrollments) ?></h3>
+                        <p class="text-muted mb-0">Total Enrollments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+            <!-- User Statistics Chart -->
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <h5 class="section-title">User Statistics Overview</h5>
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <div class="text-center">
+                            <div class="mb-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="text-muted" viewBox="0 0 16 16">
+                                    <path d="M0 14.5a1.5 1.5 0 0 0 1.5 1.5h13a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5H10.5a.5.5 0 0 0-.5.5V8a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V6.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 7.5v7zm1.5 0V7.5a.5.5 0 0 1 .5-.5H5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zm12 0v-7a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5z"/>
                                 </svg>
                             </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h3 class="fw-bold mb-0"><?= esc($totalStudents) ?></h3>
-                                <p class="text-muted mb-0 small">Total Students</p>
-                            </div>
+                            <h6 class="text-muted">Interactive charts coming soon</h6>
+                            <p class="text-muted small">Detailed analytics visualization will be available in the next update</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
+            <!-- Restricted Users -->
+            <div class="col-lg-4">
+                <div class="stat-card card h-100">
                     <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0 bg-success bg-opacity-10 rounded-3 p-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-success" viewBox="0 0 16 16">
-                                    <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
-                                    <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
+                        <h5 class="section-title">Account Status</h5>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="stat-icon-container bg-danger-light me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#dc3545" viewBox="0 0 16 16">
+                                    <path d="M8.158 1.266a1 1 0 0 0-.316 0L1.267 3.003l-.118.037a.5.5 0 0 0-.254.254l-.038.118L.5 7.979l-.001.118a.5.5 0 0 0 .148.353l.118.118.625.625a.5.5 0 0 0 .353.148l.118-.001 4.567-1.522a.5.5 0 0 1 .316 0l4.567 1.522.118.001a.5.5 0 0 0 .353-.148l.625-.625.118-.118a.5.5 0 0 0 .148-.353l-.001-.118-.364-5.567-.038-.118a.5.5 0 0 0-.254-.254l-.118-.037-5.567-.364zm.182 2.873L12 5.5 8.5 6 5 5.5l3.5-1.361zM1.5 8.5l.5 5.5.5-5.5-.5-1-.5 1zm12 0l-.5 1 .5 5.5.5-5.5-.5-1z"/>
                                 </svg>
                             </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h3 class="fw-bold mb-0"><?= esc($totalCourses) ?></h3>
-                                <p class="text-muted mb-0 small">Total Courses</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0 bg-info bg-opacity-10 rounded-3 p-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-info" viewBox="0 0 16 16">
-                                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                    <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
-                                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-                                </svg>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h3 class="fw-bold mb-0"><?= esc($totalInstructors) ?></h3>
-                                <p class="text-muted mb-0 small">Instructors</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0 bg-warning bg-opacity-10 rounded-3 p-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-warning" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
-                                </svg>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
+                            <div>
                                 <h3 class="fw-bold mb-0"><?= esc($restrictedUsers) ?></h3>
-                                <p class="text-muted mb-0 small">Restricted Users</p>
+                                <p class="text-muted mb-0">Restricted Accounts</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="row g-4 mb-4">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="fw-semibold mb-3">Quick Actions</h5>
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="<?= base_url('admin/users') ?>" class="btn" style="background-color: #6f42c1; color: white;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-1" viewBox="0 0 16 16">
-                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
-                                </svg>
-                                Manage Users
-                            </a>
-                            <a href="<?= base_url('admin/courses') ?>" class="btn btn-success">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-1" viewBox="0 0 16 16">
-                                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
-                                </svg>
-                                Manage Courses
-                            </a>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: <?= ($restrictedUsers / max($totalStudents + $totalInstructors, 1)) * 100 ?>%"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Recent Activity Tables -->
         <div class="row g-4">
             <!-- Recent Users -->
             <div class="col-lg-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-white border-0 py-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="fw-semibold mb-0">Recent Users</h5>
-                            <a href="<?= base_url('admin/users') ?>" class="btn btn-sm" style="border: 1px solid #6f42c1; color: #6f42c1;">View All</a>
+                <div class="stat-card card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="section-title mb-0">Recent Users</h5>
+                            <a href="<?= base_url('admin/users') ?>" class="btn btn-outline-primary btn-sm">View All</a>
                         </div>
-                    </div>
-                    <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light">
+                            <table class="modern-table">
+                                <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Email</th>
                                         <th>Role</th>
                                         <th>Status</th>
                                     </tr>
@@ -142,34 +271,25 @@
                                     <?php if (!empty($recentUsers)): ?>
                                         <?php foreach ($recentUsers as $user): ?>
                                             <tr>
+                                                <td><?= esc($user['name']) ?></td>
+                                                <td><?= esc($user['email']) ?></td>
                                                 <td>
-                                                    <div>
-                                                        <div class="fw-semibold"><?= esc($user['name']) ?></div>
-                                                        <small class="text-muted"><?= esc($user['email']) ?></small>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    $roleClass = match($user['role']) {
-                                                        'admin' => 'bg-danger',
-                                                        'instructor' => 'bg-info',
-                                                        default => 'bg-secondary'
-                                                    };
-                                                    ?>
-                                                    <span class="badge <?= $roleClass ?>"><?= ucfirst(esc($user['role'])) ?></span>
+                                                    <span class="badge bg-secondary"><?= ucfirst(esc($user['role'])) ?></span>
                                                 </td>
                                                 <td>
                                                     <?php if ($user['status'] === 'granted'): ?>
                                                         <span class="badge bg-success">Active</span>
-                                                    <?php else: ?>
+                                                    <?php elseif ($user['status'] === 'restricted'): ?>
                                                         <span class="badge bg-danger">Restricted</span>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-warning"><?= ucfirst(esc($user['status'])) ?></span>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
                                         <tr>
-                                            <td colspan="3" class="text-center text-muted py-4">No users found</td>
+                                            <td colspan="4" class="text-center text-muted">No recent users found</td>
                                         </tr>
                                     <?php endif; ?>
                                 </tbody>
@@ -181,38 +301,41 @@
 
             <!-- Recent Courses -->
             <div class="col-lg-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-white border-0 py-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="fw-semibold mb-0">Recent Courses</h5>
-                            <a href="<?= base_url('admin/courses') ?>" class="btn btn-sm" style="border: 1px solid #6f42c1; color: #6f42c1;">View All</a>
+                <div class="stat-card card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="section-title mb-0">Recent Courses</h5>
+                            <a href="<?= base_url('admin/courses') ?>" class="btn btn-outline-primary btn-sm">View All</a>
                         </div>
-                    </div>
-                    <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light">
+                            <table class="modern-table">
+                                <thead>
                                     <tr>
-                                        <th>Course</th>
+                                        <th>Course Title</th>
+                                        <th>Instructor</th>
                                         <th>Created</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($recentCourses)): ?>
                                         <?php foreach ($recentCourses as $course): ?>
                                             <tr>
+                                                <td><?= esc($course['title']) ?></td>
+                                                <td><?= esc($course['instructor_name'] ?? 'Not assigned') ?></td>
+                                                <td><?= date('M d', strtotime($course['created_at'])) ?></td>
                                                 <td>
-                                                    <div class="fw-semibold"><?= esc($course['title']) ?></div>
-                                                    <small class="text-muted"><?= esc(substr($course['description'] ?? '', 0, 50)) ?>...</small>
-                                                </td>
-                                                <td>
-                                                    <small class="text-muted"><?= date('M d, Y', strtotime($course['created_at'])) ?></small>
+                                                    <?php if ($course['status'] === 'active'): ?>
+                                                        <span class="badge bg-success">Active</span>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-secondary"><?= ucfirst(esc($course['status'])) ?></span>
+                                                    <?php endif; ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
                                         <tr>
-                                            <td colspan="2" class="text-center text-muted py-4">No courses found</td>
+                                            <td colspan="4" class="text-center text-muted">No recent courses found</td>
                                         </tr>
                                     <?php endif; ?>
                                 </tbody>
@@ -222,9 +345,7 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

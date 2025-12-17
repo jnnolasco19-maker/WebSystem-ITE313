@@ -190,3 +190,6 @@
       </a>
   </div>
 <?php endif; ?>
+
+</body>
+</html>
