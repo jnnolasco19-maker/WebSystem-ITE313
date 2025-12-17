@@ -193,7 +193,7 @@
                     <div class="card-body">
                         <div class="stat-icon-container bg-warning-light">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#ffc107" viewBox="0 0 16 16">
-                                <path d="M8 3a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm.5 11.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5v-1H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5v-1H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5v-1H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5V3H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5V3h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5v1h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5v1h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5v1h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6.5zm.5-11H3v1h.5V3zm0 2H3v1h.5V5zm0 2H3v1h.5V7zm0 2H3v1h.5V9zm0 2H3v1h.5v-1zm6.5 0h-.5v1H13v-1zm0-2h-.5v1H13V9zm0-2h-.5v1H13V7zm0-2h-.5v1H13V5zm0-2h-.5v1H13V3z"/>
+                                <path d="M8 3a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm.5 11.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5v-1H2a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h.5v-1h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5V3h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.5v1h.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6.5zm.5-11H3v1h.5V3zm0 2H3v1h.5V5zm0 2H3v1h.5V7zm0 2H3v1h.5V9zm0 2H3v1h.5v-1zm6.5 0h-.5v1H13v-1zm0-2h-.5v1H13V9zm0-2h-.5v1H13V7zm0-2h-.5v1H13V5zm0-2h-.5v1H13V3z"/>
                             </svg>
                         </div>
                         <h3 class="fw-bold mb-1"><?= esc($totalEnrollments) ?></h3>
@@ -325,11 +325,7 @@
                                                 <td><?= esc($course['instructor_name'] ?? 'Not assigned') ?></td>
                                                 <td><?= date('M d', strtotime($course['created_at'])) ?></td>
                                                 <td>
-                                                    <?php if ($course['status'] === 'active'): ?>
-                                                        <span class="badge bg-success">Active</span>
-                                                    <?php else: ?>
-                                                        <span class="badge bg-secondary"><?= ucfirst(esc($course['status'])) ?></span>
-                                                    <?php endif; ?>
+                                                    <span class="badge bg-info">Published</span>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

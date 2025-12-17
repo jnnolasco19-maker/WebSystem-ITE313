@@ -6,7 +6,7 @@ use Config\Database;
 use App\Models\EnrollmentModel;
 use App\Models\CourseModel;
 
-class auth extends Controller
+class Auth extends Controller
 {
     public function login()
 {

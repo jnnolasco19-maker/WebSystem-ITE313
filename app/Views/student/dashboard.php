@@ -375,8 +375,41 @@ $(document).ready(function() {
                 if (response.status === 'success') {
                     // Show success message
                     alert('Successfully enrolled in the course!');
-                    // Reload the page to update the dashboard
-                    location.reload();
+                    // Disable and hide the enroll button
+                    $button.prop('disabled', true).text('Enrolled').removeClass('btn-outline-success').addClass('btn-success');
+                    // Add the course to the enrolled courses section
+                    const courseCard = $button.closest('.card');
+                    const courseTitle = courseCard.find('.card-title').text();
+                    const courseDescription = courseCard.find('.card-text').text();
+                    
+                    // Create new enrolled course card
+                    const enrolledCourseCard = `
+                        <div class="col">
+                            <div class="card border h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title fw-bold">${courseTitle}</h6>
+                                    <p class="card-text text-muted small">${courseDescription}</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="badge bg-success">Enrolled</span>
+                                        <small class="text-muted">Just now</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add to enrolled courses section
+                    $('.row.row-cols-1.row-cols-md-2.row-cols-lg-3.g-4').first().append(enrolledCourseCard);
+                    
+                    // Update enrolled count
+                    const enrolledCountElement = $('.stat-card.card h3.fw-bold.mb-1').first();
+                    const currentCount = parseInt(enrolledCountElement.text()) || 0;
+                    enrolledCountElement.text(currentCount + 1);
+                    
+                    // Update available count
+                    const availableCountElement = $('.stat-card.card h3.fw-bold.mb-1').eq(1);
+                    const availableCount = parseInt(availableCountElement.text()) || 0;
+                    availableCountElement.text(Math.max(0, availableCount - 1));
                 } else {
                     // Show error message
                     alert(response.message || 'Enrollment failed. Please try again.');

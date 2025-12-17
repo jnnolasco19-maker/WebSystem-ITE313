@@ -33,6 +33,14 @@ class AdminController extends BaseController
     {
         if ($this->checkAdmin() !== true) return $this->checkAdmin();
 
+        // Get recent courses with instructor names
+        $recentCourses = $this->courseModel
+            ->select('courses.*, users.name as instructor_name')
+            ->join('users', 'users.id = courses.created_by', 'left')
+            ->orderBy('courses.created_at', 'DESC')
+            ->limit(5)
+            ->findAll();
+
         $data = [
             'totalStudents' => $this->userModel->where('role', 'student')->countAllResults(),
             'totalInstructors' => $this->userModel->where('role', 'instructor')->countAllResults(),
@@ -40,7 +48,7 @@ class AdminController extends BaseController
             'totalEnrollments' => $this->enrollmentModel->countAllResults(),
             'restrictedUsers' => $this->userModel->where('status', 'restricted')->countAllResults(),
             'recentUsers' => $this->userModel->orderBy('created_at', 'DESC')->limit(5)->findAll(),
-            'recentCourses' => $this->courseModel->orderBy('created_at', 'DESC')->limit(5)->findAll(),
+            'recentCourses' => $recentCourses,
         ];
 
         return view('admin/dashboard', $data);
