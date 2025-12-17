@@ -1,0 +1,32 @@
+ERROR - 2025-12-17 06:14:15 --> mysqli_sql_exception: Unknown column 'teacher_id' in 'field list' in C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `co...', 0)
+#1 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `co...')
+#2 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `co...')
+#3 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\BaseBuilder.php(1841): CodeIgniter\Database\BaseConnection->query('INSERT INTO `co...', NULL, false)
+#4 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\BaseBuilder.php(2230): CodeIgniter\Database\BaseBuilder->batchExecute('_insertBatch', 100)
+#5 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\app\Database\Seeds\CourseSeeder.php(43): CodeIgniter\Database\BaseBuilder->insertBatch(Array)
+#6 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\Seeder.php(149): App\Database\Seeds\CourseSeeder->run()
+#7 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Commands\Database\Seed.php(79): CodeIgniter\Database\Seeder->call('App\\Database\\Se...')
+#8 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Seed->run(Array)
+#9 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('db:seed', Array)
+#10 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
+ERROR - 2025-12-17 06:14:48 --> mysqli_sql_exception: Table 'lms_nolasco.announcements' doesn't exist in C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `an...', 0)
+#1 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `an...')
+#2 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `an...')
+#3 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\BaseBuilder.php(1841): CodeIgniter\Database\BaseConnection->query('INSERT INTO `an...', NULL, false)
+#4 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\BaseBuilder.php(2230): CodeIgniter\Database\BaseBuilder->batchExecute('_insertBatch', 100)
+#5 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\app\Database\Seeds\AnnouncementsSeeder.php(25): CodeIgniter\Database\BaseBuilder->insertBatch(Array)
+#6 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Database\Seeder.php(149): App\Database\Seeds\AnnouncementsSeeder->run()
+#7 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Commands\Database\Seed.php(79): CodeIgniter\Database\Seeder->call('App\\Database\\Se...')
+#8 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\CLI\Commands.php(74): CodeIgniter\Commands\Database\Seed->run(Array)
+#9 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\CLI\Console.php(47): CodeIgniter\CLI\Commands->run('db:seed', Array)
+#10 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Boot.php(388): CodeIgniter\CLI\Console->run()
+#11 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\system\Boot.php(133): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#12 C:\xampp\htdocs\ITE311-NOLASCO\ITE311-NOLASCO\spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#13 {main}
