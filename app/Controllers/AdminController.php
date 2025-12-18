@@ -61,29 +61,33 @@ class AdminController extends BaseController
         if ($this->checkAdmin() !== true) return $this->checkAdmin();
 
         $search = $this->request->getGet('search');
-        $role = $this->request->getGet('role');
-        $status = $this->request->getGet('status');
 
-        $builder = $this->userModel;
-
+        // Get all users including soft deleted ones
+        $builder = $this->userModel->withDeleted();
+        
         if ($search) {
             $builder = $builder->groupStart()
                 ->like('name', $search)
                 ->orLike('email', $search)
                 ->groupEnd();
         }
-        if ($role) {
-            $builder = $builder->where('role', $role);
-        }
-        if ($status) {
-            $builder = $builder->where('status', $status);
+
+        $users = $builder->orderBy('created_at', 'DESC')->findAll();
+
+        // Get enrollment count for students
+        foreach ($users as &$user) {
+            if ($user['role'] === 'student') {
+                $user['enrollment_count'] = $this->enrollmentModel->where('user_id', $user['id'])->countAllResults();
+            } else {
+                $user['enrollment_count'] = 0;
+            }
+            // Add a flag to indicate if the user is soft deleted
+            $user['is_deleted'] = !empty($user['deleted_at']);
         }
 
         $data = [
-            'users' => $builder->orderBy('created_at', 'DESC')->findAll(),
+            'users' => $users,
             'search' => $search ?? '',
-            'role' => $role ?? '',
-            'status' => $status ?? '',
             'editUser' => null
         ];
 
@@ -189,13 +193,37 @@ class AdminController extends BaseController
             return redirect()->back()->with('error', 'You cannot delete your own account.');
         }
 
-        // Delete user enrollments first
-        $this->enrollmentModel->where('user_id', $id)->delete();
+        // Get the user to be deleted
+        $user = $this->userModel->find($id);
         
-        // Delete user
+        // Check if user exists
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        // Prevent deletion of instructors
+        if ($user['role'] === 'instructor') {
+            return redirect()->back()->with('error', 'You cannot delete instructors. Only students can be deleted.');
+        }
+
+        // Soft delete the user (students only)
         $this->userModel->delete($id);
 
-        return redirect()->to('/admin/users')->with('success', 'User deleted successfully.');
+        return redirect()->to('/admin/users')->with('success', 'Student deleted successfully.');
+    }
+
+    public function restoreUser($id)
+    {
+        if ($this->checkAdmin() !== true) return $this->checkAdmin();
+
+        // Restore the soft deleted user
+        $result = $this->userModel->restore($id);
+
+        if ($result) {
+            return redirect()->to('/admin/users')->with('success', 'User restored successfully.');
+        } else {
+            return redirect()->to('/admin/users')->with('error', 'Failed to restore user.');
+        }
     }
 
     // ==================== COURSE MANAGEMENT ====================

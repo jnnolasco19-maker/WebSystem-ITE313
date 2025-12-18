@@ -31,6 +31,7 @@ $routes->group('admin', function($routes) {
     $routes->post('users/update', 'AdminController::updateUser');
     $routes->post('users/create', 'AdminController::createUser');
     $routes->post('users/delete/(:num)', 'AdminController::deleteUser/$1');
+    $routes->post('users/restore/(:num)', 'AdminController::restoreUser/$1');
     
     // Course Management
     $routes->get('courses', 'AdminController::courses');

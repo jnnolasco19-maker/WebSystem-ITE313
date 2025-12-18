@@ -87,12 +87,15 @@
                                 <tbody>
                                     <?php if (!empty($users)): ?>
                                         <?php foreach ($users as $u): ?>
-                                            <tr class="<?= ($editUser && $editUser['id'] == $u['id']) ? 'table-active' : '' ?>">
+                                            <tr class="<?= ($editUser && $editUser['id'] == $u['id']) ? 'table-active' : '' ?><?= $u['is_deleted'] ? ' table-secondary' : '' ?>">
                                                 <td><span class="badge bg-light text-dark">#<?= $u['id'] ?></span></td>
                                                 <td>
                                                     <div>
                                                         <div class="fw-semibold"><?= esc($u['name']) ?></div>
                                                         <small class="text-muted"><?= esc($u['email']) ?></small>
+                                                        <?php if ($u['is_deleted']): ?>
+                                                            <span class="badge bg-danger ms-2">DELETED</span>
+                                                        <?php endif; ?>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -118,7 +121,30 @@
                                                 <td>
                                                     <?php if (session()->get('user_id') == $u['id']): ?>
                                                         <span class="badge" style="background-color: #6f42c1;">You</span>
+                                                    <?php elseif ($u['role'] === 'instructor'): ?>
+                                                        <!-- Instructors cannot be deleted, show a disabled button -->
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" title="Instructors cannot be deleted" disabled>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                                                <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zM0 8a8 8 0 1 0 16 0A8 8 0 0 0 0 8z"/>
+                                                                <path d="M9.5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                                                <path d="M5.5 8.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"/>
+                                                            </svg>
+                                                        </button>
+                                                    <?php elseif ($u['is_deleted']): ?>
+                                                        <!-- Restore button for deleted users -->
+                                                        <form action="<?= base_url('admin/users/restore/' . $u['id']) ?>" method="post" class="d-inline">
+                                                            <?= csrf_field() ?>
+                                                            <button type="submit" class="btn btn-outline-success btn-sm" title="Restore">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                                                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854a.5.5 0 1 1-.708-.708L13.293 8.5 12.146 7.354a.5.5 0 1 1 .708-.708l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5Z"/>
+                                                                    <path d="M8.5 12.5a.5.5 0 0 1-1 0V9.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0l1.5 1.5a.5.5 0 0 1-.708.708L8.5 9.793V12.5Z"/>
+                                                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5ZM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2Z"/>
+                                                                    <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5Z"/>
+                                                                </svg>
+                                                            </button>
+                                                        </form>
                                                     <?php else: ?>
+                                                        <!-- Action buttons for active users -->
                                                         <div class="btn-group btn-group-sm">
                                                             <a href="<?= base_url('admin/users/edit/' . $u['id']) ?>" class="btn btn-outline-warning" title="Edit">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
@@ -149,7 +175,7 @@
                                                                             </svg>
                                                                         </div>
                                                                         <p>Are you sure you want to delete <strong><?= esc($u['name']) ?></strong>?</p>
-                                                                        <small class="text-muted">This action cannot be undone.</small>
+                                                                        <small class="text-muted">This user will be hidden but can be restored later.</small>
                                                                     </div>
                                                                     <div class="modal-footer border-0 justify-content-center">
                                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
