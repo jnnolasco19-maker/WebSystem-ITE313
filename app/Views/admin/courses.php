@@ -71,13 +71,13 @@
                                 <tbody>
                                     <?php if (!empty($courses)): ?>
                                         <?php foreach ($courses as $course): ?>
-                                            <tr class="<?= ($editCourse && $editCourse['id'] == $course['id']) ? 'table-active' : '' ?><?= $course['is_deleted'] ? ' table-secondary' : '' ?>">
+                                            <tr class="<?= ($editCourse && $editCourse['id'] == $course['id']) ? 'table-active' : '' ?><?= (!empty($course['is_deleted'])) ? ' table-secondary' : '' ?>">
                                                 <td><span class="badge bg-light text-dark">#<?= $course['id'] ?></span></td>
                                                 <td>
                                                     <div>
                                                         <div class="fw-semibold"><?= esc($course['title']) ?></div>
                                                         <small class="text-muted"><?= esc(substr($course['description'] ?? 'No description', 0, 60)) ?>...</small>
-                                                        <?php if ($course['is_deleted']): ?>
+                                                        <?php if (!empty($course['is_deleted'])): ?>
                                                             <span class="badge bg-danger ms-2">DELETED</span>
                                                         <?php endif; ?>
                                                     </div>
@@ -89,13 +89,13 @@
                                                     <small class="text-muted"><?= date('M d, Y', strtotime($course['created_at'])) ?></small>
                                                 </td>
                                                 <td>
-                                                    <?php if ($course['is_deleted']): ?>
+                                                    <?php if (!empty($course['is_deleted'])): ?>
                                                         <!-- Restore button for deleted courses -->
                                                         <form action="<?= base_url('admin/courses/restore/' . $course['id']) ?>" method="post" class="d-inline">
                                                             <?= csrf_field() ?>
                                                             <button type="submit" class="btn btn-outline-success btn-sm" title="Restore">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                                                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854a.5.5 0 1 1-.708-.708L13.293 8.5 12.146 7.354a.5.5 0 1 1 .708-.708l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5Z"/>
+                                                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854a.5.5 0 1 1-.708-.708L13.293 8.5 12.146 7.354a.5.5 0 1 1 .708-.708l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708.708L8.5 9.793V12.5Z"/>
                                                                     <path d="M8.5 12.5a.5.5 0 0 1-1 0V9.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0l1.5 1.5a.5.5 0 0 1-.708.708L8.5 9.793V12.5Z"/>
                                                                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5ZM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2Z"/>
                                                                     <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5Z"/>
@@ -153,7 +153,7 @@
                                         <tr>
                                             <td colspan="5" class="text-center text-muted py-5">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="mb-3 text-muted" viewBox="0 0 16 16">
-                                                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                                                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
                                                 </svg>
                                                 <p class="mb-0">No courses found</p>
                                             </td>

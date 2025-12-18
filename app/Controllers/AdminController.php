@@ -82,7 +82,7 @@ class AdminController extends BaseController
 
         $users = $builder->orderBy('created_at', 'DESC')->findAll();
 
-        // Get enrollment count for students
+        // Get enrollment count for students and add is_deleted flag
         foreach ($users as &$user) {
             if ($user['role'] === 'student') {
                 $user['enrollment_count'] = $this->enrollmentModel->where('user_id', $user['id'])->countAllResults();
@@ -110,12 +110,20 @@ class AdminController extends BaseController
 
         $search = $this->request->getGet('search') ?? '';
 
+        // Get the user with soft delete information
+        $editUser = $this->userModel->withDeleted()->find($id);
+        
+        // Add is_deleted flag to the editUser data
+        if ($editUser) {
+            $editUser['is_deleted'] = !empty($editUser['deleted_at']);
+        }
+
         $data = [
-            'users' => $this->userModel->orderBy('created_at', 'DESC')->findAll(),
+            'users' => $this->userModel->withDeleted()->orderBy('created_at', 'DESC')->findAll(),
             'search' => $search,
             'role' => '',
             'status' => '',
-            'editUser' => $this->userModel->find($id)
+            'editUser' => $editUser
         ];
 
         return view('admin/users', $data);
@@ -256,7 +264,7 @@ class AdminController extends BaseController
 
         $courses = $builder->orderBy('created_at', 'DESC')->findAll();
 
-        // Get enrollment count for each course
+        // Get enrollment count for each course and add is_deleted flag
         foreach ($courses as &$course) {
             $course['enrollment_count'] = $this->enrollmentModel->where('course_id', $course['id'])->countAllResults();
             // Add a flag to indicate if the course is soft deleted
@@ -277,16 +285,27 @@ class AdminController extends BaseController
     {
         if ($this->checkAdmin() !== true) return $this->checkAdmin();
 
-        $courses = $this->courseModel->orderBy('created_at', 'DESC')->findAll();
+        // Get all courses including soft deleted ones
+        $courses = $this->courseModel->withDeleted()->orderBy('created_at', 'DESC')->findAll();
         foreach ($courses as &$course) {
             $course['enrollment_count'] = $this->enrollmentModel->where('course_id', $course['id'])->countAllResults();
+            // Add a flag to indicate if the course is soft deleted
+            $course['is_deleted'] = !empty($course['deleted_at']);
+        }
+
+        // Get the course with soft delete information
+        $editCourse = $this->courseModel->withDeleted()->find($id);
+        
+        // Add is_deleted flag to the editCourse data
+        if ($editCourse) {
+            $editCourse['is_deleted'] = !empty($editCourse['deleted_at']);
         }
 
         $data = [
             'courses' => $courses,
             'search' => '',
             'instructors' => $this->userModel->where('role', 'instructor')->findAll(),
-            'editCourse' => $this->courseModel->find($id)
+            'editCourse' => $editCourse
         ];
 
         return view('admin/courses', $data);

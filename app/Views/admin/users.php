@@ -87,13 +87,13 @@
                                 <tbody>
                                     <?php if (!empty($users)): ?>
                                         <?php foreach ($users as $u): ?>
-                                            <tr class="<?= ($editUser && $editUser['id'] == $u['id']) ? 'table-active' : '' ?><?= $u['is_deleted'] ? ' table-secondary' : '' ?>">
+                                            <tr class="<?= ($editUser && $editUser['id'] == $u['id']) ? 'table-active' : '' ?><?= (!empty($u['is_deleted'])) ? ' table-secondary' : '' ?>">
                                                 <td><span class="badge bg-light text-dark">#<?= $u['id'] ?></span></td>
                                                 <td>
                                                     <div>
                                                         <div class="fw-semibold"><?= esc($u['name']) ?></div>
                                                         <small class="text-muted"><?= esc($u['email']) ?></small>
-                                                        <?php if ($u['is_deleted']): ?>
+                                                        <?php if (!empty($u['is_deleted'])): ?>
                                                             <span class="badge bg-danger ms-2">DELETED</span>
                                                         <?php endif; ?>
                                                     </div>
@@ -130,7 +130,7 @@
                                                                 <path d="M5.5 8.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"/>
                                                             </svg>
                                                         </button>
-                                                    <?php elseif ($u['is_deleted']): ?>
+                                                    <?php elseif (!empty($u['is_deleted'])): ?>
                                                         <!-- Restore button for deleted users -->
                                                         <form action="<?= base_url('admin/users/restore/' . $u['id']) ?>" method="post" class="d-inline">
                                                             <?= csrf_field() ?>
