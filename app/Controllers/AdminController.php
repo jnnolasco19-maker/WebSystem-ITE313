@@ -61,6 +61,8 @@ class AdminController extends BaseController
         if ($this->checkAdmin() !== true) return $this->checkAdmin();
 
         $search = $this->request->getGet('search');
+        $role = $this->request->getGet('role');
+        $status = $this->request->getGet('status');
 
         // Get all users including soft deleted ones
         $builder = $this->userModel->withDeleted();
@@ -70,6 +72,12 @@ class AdminController extends BaseController
                 ->like('name', $search)
                 ->orLike('email', $search)
                 ->groupEnd();
+        }
+        if ($role) {
+            $builder = $builder->where('role', $role);
+        }
+        if ($status) {
+            $builder = $builder->where('status', $status);
         }
 
         $users = $builder->orderBy('created_at', 'DESC')->findAll();
@@ -88,6 +96,8 @@ class AdminController extends BaseController
         $data = [
             'users' => $users,
             'search' => $search ?? '',
+            'role' => $role ?? '',
+            'status' => $status ?? '',
             'editUser' => null
         ];
 
