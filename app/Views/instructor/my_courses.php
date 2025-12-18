@@ -104,7 +104,7 @@
                                                     </svg>
                                                 </div>
                                                 <p>Are you sure you want to delete <strong><?= esc($course['title']) ?></strong>?</p>
-                                                <small class="text-muted">This will also remove all student enrollments for this course.</small>
+                                                <small class="text-muted">This course will be hidden but can be restored later by an administrator. Existing enrollments will be preserved.</small>
                                             </div>
                                             <div class="modal-footer border-0 justify-content-center">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

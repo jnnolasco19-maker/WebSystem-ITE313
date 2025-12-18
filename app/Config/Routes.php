@@ -38,6 +38,7 @@ $routes->group('admin', function($routes) {
     $routes->post('courses/create', 'AdminController::createCourse');
     $routes->post('courses/update', 'AdminController::updateCourse');
     $routes->post('courses/delete/(:num)', 'AdminController::deleteCourse/$1');
+    $routes->post('courses/restore/(:num)', 'AdminController::restoreCourse/$1');
 });
 
 // Course enrollment route

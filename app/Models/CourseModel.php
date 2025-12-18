@@ -8,7 +8,11 @@ class CourseModel extends Model
 {
     protected $table = 'courses';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['title', 'description', 'created_by', 'created_at', 'updated_at'];
+    protected $allowedFields = ['title', 'description', 'created_by', 'created_at', 'updated_at', 'deleted_at'];
+    
+    // Enable soft deletes
+    protected $useSoftDeletes = true;
+    protected $deletedField  = 'deleted_at';
 
     /**
      * Get all available courses (not enrolled by user)
@@ -48,5 +52,38 @@ class CourseModel extends Model
     {
         return $this->findAll();
     }
+    
+    /**
+     * Get all courses including soft deleted ones
+     * 
+     * @return array Array of all course records including soft deleted
+     */
+    public function getAllCoursesWithTrashed()
+    {
+        return $this->withDeleted()->findAll();
+    }
+    
+    /**
+     * Get only soft deleted courses
+     * 
+     * @return array Array of soft deleted course records
+     */
+    public function getOnlyTrashed()
+    {
+        return $this->onlyDeleted()->findAll();
+    }
+    
+    /**
+     * Restore a soft deleted course
+     * 
+     * @param int $id Course ID to restore
+     * @return bool Result of restore operation
+     */
+    public function restore($id)
+    {
+        return $this->save([
+            'id' => $id,
+            'deleted_at' => null
+        ]);
+    }
 }
-

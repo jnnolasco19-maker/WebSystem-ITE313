@@ -206,8 +206,9 @@ class AdminController extends BaseController
 
         $search = $this->request->getGet('search');
 
-        $builder = $this->courseModel;
-
+        // Get all courses including soft deleted ones
+        $builder = $this->courseModel->withDeleted();
+        
         if ($search) {
             $builder = $builder->groupStart()
                 ->like('title', $search)
@@ -220,6 +221,8 @@ class AdminController extends BaseController
         // Get enrollment count for each course
         foreach ($courses as &$course) {
             $course['enrollment_count'] = $this->enrollmentModel->where('course_id', $course['id'])->countAllResults();
+            // Add a flag to indicate if the course is soft deleted
+            $course['is_deleted'] = !empty($course['deleted_at']);
         }
 
         $data = [
@@ -303,12 +306,26 @@ class AdminController extends BaseController
     {
         if ($this->checkAdmin() !== true) return $this->checkAdmin();
 
-        // Delete course enrollments first
-        $this->enrollmentModel->where('course_id', $id)->delete();
+        // Instead of deleting enrollments and course, we'll soft delete the course
+        // The enrollments will remain in the database
         
-        // Delete course
+        // Soft delete the course
         $this->courseModel->delete($id);
 
         return redirect()->to('/admin/courses')->with('success', 'Course deleted successfully.');
+    }
+
+    public function restoreCourse($id)
+    {
+        if ($this->checkAdmin() !== true) return $this->checkAdmin();
+
+        // Restore the soft deleted course
+        $result = $this->courseModel->restore($id);
+
+        if ($result) {
+            return redirect()->to('/admin/courses')->with('success', 'Course restored successfully.');
+        } else {
+            return redirect()->to('/admin/courses')->with('error', 'Failed to restore course.');
+        }
     }
 }

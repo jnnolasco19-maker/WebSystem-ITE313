@@ -185,10 +185,10 @@ class InstructorController extends BaseController
             return redirect()->to('/instructor/my-courses')->with('error', 'Course not found or access denied.');
         }
 
-        // Delete course enrollments first
-        $this->enrollmentModel->where('course_id', $id)->delete();
+        // Instead of deleting enrollments and course, we'll soft delete the course
+        // The enrollments will remain in the database
         
-        // Delete course
+        // Soft delete the course
         $this->courseModel->delete($id);
 
         return redirect()->to('/instructor/my-courses')->with('success', 'Course deleted successfully.');
